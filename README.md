@@ -3,14 +3,6 @@
 
 Bu proje, ESP8266 tabanlı bir mesh ağı kullanarak çeşitli sensör verilerini toplama ve bu verileri diğer cihazlarla paylaşma uygulamasıdır. Projede MMA7361L, MPL3115A2 sensörleri ve LCD ekran gibi bileşenler yer almakta ve veriler mesh ağı üzerinden iletilmektedir.
 
-İçindekiler
-Özellikler
-Gereksinimler
-Kurulum
-Kodların Açıklaması
-Proje Detayları
-Katkıda Bulunanlar
-Özellikler
 Mesh Ağ Yapısı: painlessMesh kütüphanesi kullanılarak ESP8266 ve ESP cihazları arasında veri iletimi sağlanır.
 Sensör Desteği:
 MMA7361L (X, Y, Z ekseni ivme verileri)
