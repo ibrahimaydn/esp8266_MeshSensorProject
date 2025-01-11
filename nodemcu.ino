@@ -1,6 +1,5 @@
 #include <painlessMesh.h>
 #include <SoftwareSerial.h>
-
 // Mesh ayarları
 #define MESH_PREFIX "meshName"
 #define MESH_PASSWORD "meshPassword"
