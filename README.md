@@ -1,62 +1,75 @@
-# esp8266_MeshSensorProject
+
 # ESP8266 Mesh Ağ ve UART Haberleşme Projesi
 
-Bu proje, **ESP8266** (NodeMCU) ve **Arduino** arasında **UART haberleşmesi** gerçekleştiren ve bu verileri bir **mesh ağı** üzerinden ileten bir sistemdir. Proje, sensör verilerini toplamak, işlemek ve mesh ağdaki diğer düğümlere iletmek için tasarlanmıştır.
+Bu proje, ESP8266 tabanlı bir mesh ağı kullanarak çeşitli sensör verilerini toplama ve bu verileri diğer cihazlarla paylaşma uygulamasıdır. Projede MMA7361L, MPL3115A2 sensörleri ve LCD ekran gibi bileşenler yer almakta ve veriler mesh ağı üzerinden iletilmektedir.
 
-## Proje Özellikleri
-1. **UART Haberleşme**:
-   - ESP8266, Arduino'dan gelen sensör verilerini alır.
-   - UART protokolü kullanılarak Arduino ile ESP8266 arasında iletişim sağlanır.
-   - Sensör verileri ayrıştırılır ve JSON formatına dönüştürülür.
+İçindekiler
+Özellikler
+Gereksinimler
+Kurulum
+Kodların Açıklaması
+Proje Detayları
+Katkıda Bulunanlar
+Özellikler
+Mesh Ağ Yapısı: painlessMesh kütüphanesi kullanılarak ESP8266 ve ESP cihazları arasında veri iletimi sağlanır.
+Sensör Desteği:
+MMA7361L (X, Y, Z ekseni ivme verileri)
+MPL3115A2 (Basınç ve sıcaklık ölçümü)
+Veri Görselleştirme:
+16x2 LCD ekran kullanarak sensör verilerini görüntüleme.
+JSON Formatında Veri İletimi: Mesh ağı üzerinden sensör verileri JSON formatında iletilir.
+Gereksinimler
+Donanım:
+NodeMCU (ESP8266)
+Arduino Uno
+MMA7361L sensörü
+MPL3115A2 sensörü
+16x2 LCD ekran
+Yazılım:
+Arduino IDE
+painlessMesh kütüphanesi
+Adafruit_MPL3115A2 kütüphanesi
+LiquidCrystal kütüphanesi
+Kurulum
+Gerekli Kütüphaneleri Yükleyin: Arduino IDE üzerinden aşağıdaki kütüphaneleri yükleyin:
 
-2. **Mesh Ağ**:
-   - ESP8266 cihazları arasında bir **painlessMesh** ağı kurulur.
-   - Mesh ağı, verileri düğümler arasında paylaşır.
-   - Merkezi bir yönlendiriciye ihtiyaç duymadan düğümler arası iletişim sağlanır.
+painlessMesh
+Adafruit_MPL3115A2
+LiquidCrystal
+Donanımı Bağlayın:
 
-3. **Sensör Verileri**:
-   - **MMA7361L** ivme ölçer sensörü verileri (x, y, z ekseni).
-   - **MPL3115A2** barometre ve sıcaklık sensörü verileri (basınç ve sıcaklık).
+MMA7361L sensörünü, MPL3115A2'yi ve LCD ekranı NodeMCU veya Arduino'ya bağlayın.
+Bağlantılar için sensör dokümanlarını referans alın.
+Kodları Yükleyin:
 
----
+arduino.ino dosyasını Arduino Uno'ya yükleyin.
+nodemcu.ino ve nodemcutest.ino dosyalarını NodeMCU'ya yükleyin.
+Mesh Ağını Başlatın:
 
-## Donanım Gereksinimleri
-- **ESP8266 (NodeMCU)**
-- **Arduino Uno veya Mega**
-- **MMA7361L** ivme ölçer sensörü
-- **MPL3115A2** barometre ve sıcaklık sensörü
-- Bağlantı kabloları
+NodeMCU cihazları arasında iletişim kurmak için cihazların aynı ağ adı (MESH_PREFIX) ve şifreyle (MESH_PASSWORD) çalıştığından emin olun.
+Kodların Açıklaması
+1. arduino.ino
+Arduino, MMA7361L ve MPL3115A2 sensörlerinden verileri toplar. Veriler, LCD ekrana yazdırılır ve seri port üzerinden NodeMCU'ya gönderilir.
 
----
+2. nodemcu.ino
+NodeMCU, gelen seri verileri işler ve mesh ağına JSON formatında gönderir. Mesh ağı üzerinden gelen mesajlar da işlenir ve konsola yazdırılır.
 
-## Yazılım Gereksinimleri
-Projenin çalışması için aşağıdaki Arduino kütüphanelerini yüklemeniz gerekmektedir:
-- [painlessMesh](https://github.com/gmag11/painlessMesh)
-- SoftwareSerial (Arduino IDE'de yerleşik)
+3. nodemcutest.ino
+Bu dosya, mesh ağı üzerinde temel iletişim testleri yapmak için kullanılır. Mesh ağına katılan cihazların bağlantı durumu izlenir ve gelen mesajlar işlenir.
 
----
-
-## Bağlantılar
-### Arduino ile ESP8266 Bağlantısı
-| Arduino Pin | ESP8266 Pin |
-|-------------|-------------|
-| TX          | D5          |
-| RX          | D6          |
-| GND         | GND         |
-
-### Sensör Bağlantıları
-#### MMA7361L
-- VCC: 3.3V
-- GND: GND
-- X, Y, Z: Analog giriş pinleri (Arduino)
-
-#### MPL3115A2
-- VCC: 3.3V
-- GND: GND
-- SDA, SCL: Arduino I2C pinleri
-
----
-
-## Kod Açıklaması
-### UART Haberleşmesi (Arduino Kodu)
-Arduino, sensörlerden gelen verileri toplar ve UART üzerinden ESP8266'ya iletir. 
+Proje Detayları
+Mesh Ağı: ESP8266 cihazları arasında veri paylaşımı için kullanılır.
+JSON Formatı: Sensör verileri şu formatta iletilir:
+json
+Kodu kopyala
+{
+  "id": "4",
+  "sensor": [
+    "x : 123",
+    "y : 456",
+    "z : 789",
+    "basinç : 101325",
+    "sicaklik : 25.0"
+  ]
+}
+Seri İletişim: Arduino ile NodeMCU arasında sensör verilerini paylaşmak için SoftwareSerial kullanılır.
